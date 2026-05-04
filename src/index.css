@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 96%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 96%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 96%;
+
+    --primary: 156 61% 15%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 96%;
+
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 63%;
+
+    --accent: 151 62% 32%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 156 20% 16%;
+    --input: 156 15% 18%;
+    --ring: 151 62% 32%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 156 61% 15%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 151 62% 32%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 156 50% 12%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 156 40% 20%;
+    --sidebar-ring: 151 62% 32%;
+
+    /* Custom tokens */
+    --gradient-hero: linear-gradient(135deg, hsl(156 61% 15%), hsl(156 61% 22%));
+    --gradient-accent: linear-gradient(135deg, hsl(151 62% 32%), hsl(151 62% 40%));
+    --shadow-card: 0 1px 3px 0 hsl(0 0% 0% / 0.3), 0 1px 2px -1px hsl(0 0% 0% / 0.2);
+    --shadow-card-hover: 0 10px 25px -5px hsl(151 62% 32% / 0.15), 0 8px 10px -6px hsl(0 0% 0% / 0.2);
+    --shadow-accent-glow: 0 0 20px hsl(151 62% 32% / 0.3);
+    --shadow-btn-glow: 0 0 16px hsl(151 62% 32% / 0.4);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-accent);
+  }
+
+  .card-shadow {
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-shadow-hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .hero-gradient {
+    background: var(--gradient-hero);
+  }
+
+  .accent-gradient {
+    background: var(--gradient-accent);
+  }
+
+  .btn-glow:hover {
+    box-shadow: var(--shadow-btn-glow);
+  }
+}
+
+/* ── Global Animation Enhancements ── */
+
+/* Button press effect */
+button, [role="button"] {
+  @apply transition-transform duration-150;
+}
+button:active:not(:disabled), [role="button"]:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Input focus glow */
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 0 0 3px hsl(151 62% 32% / 0.25);
+  border-color: hsl(var(--accent)) !important;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* Smooth card hover lift */
+.card-hover-lift {
+  @apply transition-all duration-300;
+}
+.card-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover), 0 0 20px hsl(151 62% 32% / 0.1);
+  border-color: hsl(var(--accent) / 0.4);
+}
+
+/* Sidebar nav item animation */
+.sidebar-nav-item {
+  @apply transition-all duration-200 relative;
+}
+.sidebar-nav-item::before {
+  content: "";
+  @apply absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-0 rounded-full bg-accent;
+  transition: height 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sidebar-nav-item:hover::before,
+.sidebar-nav-item.active::before {
+  height: 60%;
+}
+
+/* Stagger animation helper */
+.stagger-children > * {
+  opacity: 0;
+  animation: stagger-fade-up 0.5s ease forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes stagger-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton-shimmer {
+  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted-foreground) / 0.08) 50%, hsl(var(--muted)) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
